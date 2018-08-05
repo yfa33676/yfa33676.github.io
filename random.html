@@ -18,19 +18,19 @@
 
 <script type="text/javascript">
 	pageid_list = [];
-	
+
 	window.onload = function(){
-		document.getElementById("random").appendChild(document.createElement("script")).setAttribute("src","http://ja.wikipedia.org/w/api.php?action=query&format=json&callback=get_pageid&rnnamespace=0&rnlimit=10&list=random");
+		document.getElementById("random").appendChild(document.createElement("script")).setAttribute("src","https://ja.wikipedia.org/w/api.php?action=query&format=json&callback=get_pageid&rnnamespace=0&rnlimit=10&list=random");
 	}
-	
+
 	var get_pageid = function(json){
 		for(i in json.query.random){
 			pageid_list.push(json.query.random[i].id);
 		}
-		
-		document.getElementById("extract").appendChild(document.createElement("script")).setAttribute("src","http://ja.wikipedia.org/w/api.php?action=query&format=json&callback=get_extracts&exlimit=max&prop=extracts|info&inprop=url&exintro&pageids=" + pageid_list.join("|"));		
+
+		document.getElementById("extract").appendChild(document.createElement("script")).setAttribute("src","https://ja.wikipedia.org/w/api.php?action=query&format=json&callback=get_extracts&exlimit=max&prop=extracts|info&inprop=url&exintro&pageids=" + pageid_list.join("|"));
 	}
-	
+
 	var get_extracts = function(json){
 		for(i in pageid_list){
 			var a = document.getElementById("description").appendChild(document.createElement("dt")).appendChild(document.createElement("a"));
@@ -39,8 +39,8 @@
 			document.getElementById("description").appendChild(document.createElement("dd")).innerHTML = json.query.pages[pageid_list[i]].extract;
 		}
 	}
-	
-	
+
+
 </script>
 
 </body>

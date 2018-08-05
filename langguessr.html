@@ -37,17 +37,17 @@
 <script type="text/javascript">
 
 	var pageid = null;
-	
+
 	window.onload = function(){
-		document.getElementById("script_random").appendChild(document.createElement("script")).setAttribute("src","http://en.wiktionary.org/w/api.php?action=query&format=json&callback=get_pageid&rnnamespace=0&rnlimit=1&list=random");
+		document.getElementById("script_random").appendChild(document.createElement("script")).setAttribute("src","https://en.wiktionary.org/w/api.php?action=query&format=json&callback=get_pageid&rnnamespace=0&rnlimit=1&list=random");
 	}
-	
+
 	var get_pageid = function(json){
 		pageid = json.query.random[0].id;
-		
-		document.getElementById("script_extract").appendChild(document.createElement("script")).setAttribute("src","http://en.wiktionary.org/w/api.php?action=query&format=json&callback=get_extracts&exlimit=max&prop=extracts|info&inprop=url&pageids=" + pageid);		
+
+		document.getElementById("script_extract").appendChild(document.createElement("script")).setAttribute("src","https://en.wiktionary.org/w/api.php?action=query&format=json&callback=get_extracts&exlimit=max&prop=extracts|info&inprop=url&pageids=" + pageid);		
 	}
-	
+
 	var get_extracts = function(json){
 		document.getElementById("btn").innerHTML = json.query.pages[pageid].title;
 
@@ -57,8 +57,8 @@
 		document.getElementById("extract").appendChild(document.createElement("dd")).innerHTML = json.query.pages[pageid].extract;
 
 	}
-	
-	
+
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
