@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Wikipedia LangLinks Search</title>
+  </head>
+    <body>
+        <div id="ja_script"><script></script></div>
+        <div id="en_script"><script></script></div>
+
+        <div  class="container">
+            <h1 class="text-center">Wikipedia LangLinks Search</h1>
+            <p class="text-center">ja:Japanese en:English de:Deutsch fr:French it:Italian la:Latin el:Greek ru:Russian ko:Korean zh:Chinese</p>
+            <input type="search" class="form-control" placeholder="search" onkeyup = "update();" id="input">
+            <table id="table" class="table"></table>
+        </div>
+
+        
+        <script type="text/javascript">
+            var langs = [null, "ja","en","de","fr","it","la","el","ru","ko", "zh"];
+            var fromLangs = [null, "ja", "en"];
+            var list = {null : [] , "ja" : [], "en" : []};
+            
+            window.onload = function(){
+                makeTable();
+                setTable();	
+		update();
+            }
+            
+            var update = function(){
+                for(i in fromLangs) fromLangs[i] ? updateScript(input.value, fromLangs[i]) : undefined;
+            }            
+            
+            var updateScript = function(title, lang){
+                var script = document.getElementById(lang + "_script");
+                var oldChild = script.lastChild;
+                
+                var src = "";
+                src += "http://" + lang + ".wikipedia.org/w/api.php?&callback=" + lang + "_func&";
+                src += "action=query&prop=langlinks&format=json&lllimit=500&redirects&titles=";
+                src += encodeURIComponent(title);                
+                
+                var newChild = document.createElement("script");
+                newChild.src = src;
+                script.replaceChild(newChild, oldChild);
+            }
+            
+            var ja_func = function(json){
+                list["ja"] = makeList(json, "ja");
+                writeTable();
+            }
+            
+            var en_func = function(json){
+                list["en"] = makeList(json, "en");
+                writeTable();
+            }
+            
+            var makeList = function(json,lang){
+                var list = {};
+                var pageid = json.length == 0 ? -1 : parseInt(Object.keys(json.query.pages)[0]);
+                                
+                if(pageid == -1) return list;
+                
+                var langlinks = json.query.pages[pageid].langlinks;
+                list[lang] = json.query.pages[pageid].title;
+                
+                for(i in langlinks) list[langlinks[i].lang] = langs.indexOf(langlinks[i].lang) == -1 ? "" : langlinks[i]["*"];
+                
+                return list;
+            }
+            
+            var makeTable = function(){
+                for(i in langs){
+                    row = table.insertRow(i);
+                    for(j in fromLangs){
+                        var tagName = i == 0 || j == 0 ? "th" : "td";
+                        row.appendChild(document.createElement(tagName));
+                    }
+                }
+                
+                for(i in langs){
+                    for(j in fromLangs){
+                        table.rows[i].cells[j].innerHTML = i == 0 ? (j == 0 ? "#" : "from " + fromLangs[j]) : (j == 0 ? langs[i] : "<a></a>");
+                    }
+                }
+            }
+            
+            var writeTable = function(){
+                for(i in langs){
+                    for(j in fromLangs){
+                        var td = table.rows[i].cells[j];
+                        var fromLang = fromLangs[j];
+                        var lang = langs[i];
+
+			if(fromLang && lang) while(td.firstChild) td.removeChild(td.firstChild);
+						
+                        if(title = list[fromLang][lang]){
+				a = document.createElement("a");
+				a.innerHTML = title;
+                            	a.href = "http://" + langs[i] + ".wikipedia.org/wiki/" + title;
+				td.appendChild(a);
+                        }
+                    }
+                }
+            }
+            
+            var setTable = function(){
+                for(i in langs){
+                    for(j in fromLangs){
+                        table.rows[0].cells[j].width = j == 0 ? "50" : "300";
+                    }
+                }
+            }
+            
+        </script>
+    </body>
+</html>
