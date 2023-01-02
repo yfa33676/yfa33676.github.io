@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wiktionary Lang Guessr</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div id="script_random"></div>
+<div id="script_extract"></div>
+
+<div  class="container">
+
+<h1 class="text-center">Wiktionary Lang Guessr</h1>
+
+<div id="accordion">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button id="btn" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body" id="extract">
+      </div>
+    </div>
+  </div>
+</div>
+
+<dl id="description" class="dl">
+</dl>
+</div>
+
+<script type="text/javascript">
+
+	var pageid = null;
+
+	window.onload = function(){
+		document.getElementById("script_random").appendChild(document.createElement("script")).setAttribute("src","https://en.wiktionary.org/w/api.php?action=query&format=json&callback=get_pageid&rnnamespace=0&rnlimit=1&list=random");
+	}
+
+	var get_pageid = function(json){
+		pageid = json.query.random[0].id;
+
+		document.getElementById("script_extract").appendChild(document.createElement("script")).setAttribute("src","https://en.wiktionary.org/w/api.php?action=query&format=json&callback=get_extracts&exlimit=max&prop=extracts|info&inprop=url&pageids=" + pageid);		
+	}
+
+	var get_extracts = function(json){
+		document.getElementById("btn").innerHTML = json.query.pages[pageid].title;
+
+		var a = document.getElementById("extract").appendChild(document.createElement("dt")).appendChild(document.createElement("a"));
+		a.innerHTML = json.query.pages[pageid].title;
+		a.href = json.query.pages[pageid].fullurl;
+		document.getElementById("extract").appendChild(document.createElement("dd")).innerHTML = json.query.pages[pageid].extract;
+
+	}
+
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</body>
+</html>
