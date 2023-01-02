@@ -12,8 +12,8 @@
 <div class="container">
   <nav class="navbar navbar-expand-sm bg-body-tertiary fixed-top navbar-light bg-light">
     <div class="container-fluid">
-      <form id="form">
-        <input id="in_text" class="form-control" type="search" placeholder="キーワード">
+      <form id="form" class="d-flex">
+        <input id="in_text" class="form-inline me-2" type="search" placeholder="キーワード"><button class="btn btn-primary" type="submit">検索</button>
       </form>
     </div>
   </nav>
@@ -21,7 +21,7 @@
     <thead>
       <tr><th nowrap>公開日</th><th nowrap>開始</th><th>タイトル</th></tr>
     </thead>
-    <tbody id="tb_links">
+    <tbody id="tb_links" style="display:none">
       <tr><td nowrap>2010-02-02</td><td nowrap>00:00</td><td><a href="https://www.youtube.com/watch?v=JsTbEPYomhA" target="_blank">KAN 『よければ一緒に』 (PV)</a></td></tr>
       <tr><td nowrap>2010-02-02</td><td nowrap>00:00</td><td><a href="https://www.youtube.com/watch?v=9TBpkvJm2Xo" target="_blank">Ｔ－Ｐｉｓｔｏｎｚ＋ＫＭＣ つながリーヨ ビデオクリップ</a></td></tr>
       <tr><td nowrap>2010-02-02</td><td nowrap>00:00</td><td><a href="https://www.youtube.com/watch?v=aTqEzQdetqk" target="_blank">ＨＡＮＧＲＹ ＆ ＡＮＧＲＹ Ｔｏｐ Ｓｅｃｒｅｔ ビデオクリップ</a></td></tr>
@@ -12111,6 +12111,7 @@
 <script>
    $(document).ready(function(){
      $("#form").submit(function(event ) {
+       $("#tb_links").show();
        var values = $("#in_text").val().toLowerCase().replace("　"," ").split(" ");
        var rows = $("#tb_links tr")
        $("#tb_links tr").map(function() {
