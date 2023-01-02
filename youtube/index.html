@@ -14,7 +14,7 @@
   <h2>ハロプロYouTubeリンク集</h2>
   <form id ="form">
     <div class="form-group">
-      <input class="form-control" id="in_text" type="text"><button type="submit" class="btn btn-primary">絞り込み</button>
+      <input class="form-control" id="in_text" type="text">
     </div>
   </form>
   <table class="table">
@@ -10010,9 +10010,16 @@
 <script>
    $(document).ready(function(){
      $("#form").submit(function(event ) {
-       var value = $("#in_text").val();
-       $("#tb_links tr").filter(function() {
-         $(this).toggle($(this).text().indexOf(value) > -1)
+       var values = $("#in_text").val().replace("　"," ").split(" ");
+       var rows = $("#tb_links tr")
+       $("#tb_links tr").map(function() {
+         for(var i = 0; i < values.length; i++){
+           if($(this).text().indexOf(values[i]) == -1){
+             $(this).hide();
+             return;
+           }
+           $(this).show();
+         }
        });
        event.preventDefault();
      });
