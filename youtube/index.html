@@ -32,6 +32,9 @@
 </div>
 
 <script>
+         $(document).ready(function(){
+          $("#in_text").focus();
+         })
       $("#form").submit(function(event ) {
       var values = $("#in_text").val().toLowerCase().replace("　"," ").split(" ").filter(function(v){return v != ''});
       console.log(values);
