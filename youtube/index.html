@@ -40,6 +40,9 @@
       $.getJSON(json, function(links,status){
         for(var i in links){
           var skip = false;
+          if(values.length == 0){
+            skip = true;
+          }
           for(var j in values){
             if(
               links[i]["公開日"].toLowerCase().indexOf(values[j]) == -1 &&
