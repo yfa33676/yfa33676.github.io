@@ -50,7 +50,8 @@
             if(
               links[i]["公開日"].toLowerCase().indexOf(values[j]) == -1 &&
               links[i]["時間"].toLowerCase().indexOf(values[j]) == -1 &&
-              links[i]["タイトル"].toLowerCase().indexOf(values[j]) == -1
+              links[i]["タイトル"].toLowerCase().indexOf(values[j]) == -1 &&
+              links[i]["チャンネル名"].toLowerCase().indexOf(values[j]) == -1
             ){
               skip = true;
             }
