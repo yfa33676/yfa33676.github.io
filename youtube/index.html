@@ -32,15 +32,18 @@
 </div>
 
 <script>
-         $(document).ready(function(){
-          $("#in_text").focus();
-         })
-      $("#form").submit(function(event ) {
+      $(document).ready(function(){
+        $("#form").submit();  
+        $("#in_text").focus();
+      })
+
+      $("#form").submit(function(event) {
       var values = $("#in_text").val().toLowerCase().replace("　"," ").split(" ").filter(function(v){return v != ''});
-      console.log(values);
-      json = "./links.json";
+      if(values.length == 0){
+        values = decodeURI($(location).attr('search')).toLowerCase().replace("?","").split("+").filter(function(v){return v != ''});
+      }
       $("#tb_links tr").remove();
-      $.getJSON(json, function(links,status){
+      $.getJSON("./links.json", function(links,status){
         for(var i in links){
           var skip = false;
           if(values.length == 0){
