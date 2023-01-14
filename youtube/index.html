@@ -34,6 +34,7 @@ $(function(){
   }
   
   $('input').focus().val(q);
+  $('title').text(q + ' - ハロプロYouTubeリンク集');
 
   $.getJSON('./links.json', function(links){
     for (var i in links) {
