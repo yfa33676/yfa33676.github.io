@@ -22,49 +22,46 @@
     <table class="table">
       <thead><tr><th class="nowrap">公開日</th><th class="nowrap">開始</th><th>タイトル</th></tr></thead>
       <tbody></tbody>
-  </table>
-  
-</div>
-
-<script>
-$(function(){
-  var q = (new URL(document.location)).searchParams.get('q');
-  if(q === null || q === ''){
-    return;
-  }
-  
-  $('input').focus().val(q);
-  $('title').text(q + ' - ハロプロYouTubeリンク集');
-
-  $.getJSON('./links.json', function(links){
-    for (var i in links) {
-      var skip = false;
-      var keywords = q.toLowerCase().replaceAll('　',' ').replaceAll('+', ' ').split(' ');
-      for(var j in keywords){
-        if(
-          links[i]['公開日'].toLowerCase().indexOf(keywords[j]) == -1 &&
-          links[i]['タイトル'].toLowerCase().indexOf(keywords[j]) == -1 &&
-          links[i]['チャンネル名'].toLowerCase().indexOf(keywords[j]) == -1
-         ){
-          skip = true;
-        }
-      }
-      if(skip){
-        continue;
-      }
-      $('tbody').append(
-        '<tr>' + 
-          '<td class="nowrap">' + links[i]['公開日'] + '</td>'+
-          '<td class="nowrap">' + links[i]['時間'] + '</td>' + 
-          '<td>' + 
-            '<a href ="' + links[i]['URL'] + '" target="_blank">' + links[i]['タイトル'] + '</a>'+
-          '</td>'+
-        '</tr>'
-      );
+    </table>
+  </div>
+  <script>
+  $(function(){
+    var q = (new URL(document.location)).searchParams.get('q');
+    if(q === null || q === ''){
+      return;
     }
+    
+    $('input').focus().val(q);
+    $('title').text(q + ' - ハロプロYouTubeリンク集');
+  
+    $.getJSON('./links.json', function(links){
+      for (var i in links) {
+        var skip = false;
+        var keywords = q.toLowerCase().replaceAll('　',' ').replaceAll('+', ' ').split(' ');
+        for(var j in keywords){
+          if(
+            links[i]['公開日'].toLowerCase().indexOf(keywords[j]) == -1 &&
+            links[i]['タイトル'].toLowerCase().indexOf(keywords[j]) == -1 &&
+            links[i]['チャンネル名'].toLowerCase().indexOf(keywords[j]) == -1
+           ){
+            skip = true;
+          }
+        }
+        if(skip){
+          continue;
+        }
+        $('tbody').append(
+          '<tr>' + 
+            '<td class="nowrap">' + links[i]['公開日'] + '</td>'+
+            '<td class="nowrap">' + links[i]['時間'] + '</td>' + 
+            '<td>' + 
+              '<a href ="' + links[i]['URL'] + '" target="_blank">' + links[i]['タイトル'] + '</a>'+
+            '</td>'+
+          '</tr>'
+        );
+      }
+    })
   })
-})
-</script>
-
+  </script>
 </body>
 </html>
