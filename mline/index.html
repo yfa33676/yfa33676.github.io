@@ -52,10 +52,10 @@
          '<div class="card">' + 
            '<div class="card-body">' + 
              '<h5 class="card-title">' + links[i]['タイトル'] + '</h5>' + 
-             '<p class="card-text">公開日：' + links[i]['公開日']  + '</p>' +
+             '<p class="card-text">' + links[i]['公開日']  + '<small>（' + links[i]['時間'] + '～）</small></p>' +
              '<a href="' + links[i]['URL'] + '" target="_blank" " class="btn btn-primary">開く</a>' +
           '</div>' + 
-         '</div>' 
+          '</div>' 
         );
       }
     })
