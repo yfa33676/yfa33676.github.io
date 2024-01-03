@@ -19,10 +19,9 @@
         </form>
       </div>
     </nav>
-    <table class="table">
-      <thead><tr><th class="nowrap">公開日</th><th class="nowrap">開始</th><th>タイトル</th></tr></thead>
-      <tbody></tbody>
-    </table>
+    <div id="links">
+
+    </div>
   </div>
   <script>
   $(function(){
@@ -49,14 +48,14 @@
         if(skip){
           continue;
         }
-        $('tbody').append(
-          '<tr>' + 
-            '<td class="nowrap">' + links[i]['公開日'] + '</td>'+
-            '<td class="nowrap">' + links[i]['時間'] + '</td>' + 
-            '<td>' + 
-              '<a href ="' + links[i]['URL'] + '" target="_blank">' + links[i]['タイトル'] + '</a>'+
-            '</td>'+
-          '</tr>'
+        $('#links').append(
+         '<div class="card">' + 
+           '<div class="card-body">' + 
+             '<h5 class="card-title">' + links[i]['タイトル'] + '</h5>' + 
+             '<p class="card-text">公開日：' + links[i]['公開日']  + '</p>' +
+             '<a href="' + links[i]['URL'] + '" target="_blank" " class="btn btn-primary">開く</a>' +
+          '</div>' + 
+         '</div>' 
         );
       }
     })
