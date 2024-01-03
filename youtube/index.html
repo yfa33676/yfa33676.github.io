@@ -57,6 +57,7 @@
         for(var j in keywords){
           if(
             links[i]['公開日'].toLowerCase().indexOf(keywords[j]) == -1 &&
+            links[i]['チャンネル名'].toLowerCase().indexOf(keywords[j]) == -1 &&
             links[i]['タイトル'].toLowerCase().indexOf(keywords[j]) == -1
            ){
             skip = true;
