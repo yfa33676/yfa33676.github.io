@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="JA">
+<head>
+  <title>M-line Music チャプター集</title>
+  <meta charset="UTF8-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <style> .nowrap {white-space: nowrap;} body{padding-top:4.5rem;}</style>
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar navbar-expand-sm bg-body-tertiary fixed-top navbar-light bg-light">
+      <div class="container-fluid">
+        <form action="" method="GET" class="d-flex">
+          <input name="q" class="form-inline me-2" type="search" placeholder="キーワード">
+          <button class="btn btn-primary" type="submit">絞り込み</button>
+        </form>
+      </div>
+    </nav>
+    <table class="table">
+      <thead><tr><th class="nowrap">公開日</th><th class="nowrap">開始</th><th>タイトル</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script>
+  $(function(){
+    var q = (new URL(document.location)).searchParams.get('q');
+    if(q === null || q === ''){
+      q = ''
+    } else {
+      $('input').focus().val(q);
+      $('title').text(q + ' - M-line Music チャプター集');
+    }    
+  
+    $.getJSON('./links.json', function(links){
+      for (var i in links) {
+        var skip = false;
+        var keywords = q.toLowerCase().replaceAll('　',' ').replaceAll('+', ' ').split(' ');
+        for(var j in keywords){
+          if(
+            links[i]['公開日'].toLowerCase().indexOf(keywords[j]) == -1 &&
+            links[i]['タイトル'].toLowerCase().indexOf(keywords[j]) == -1
+           ){
+            skip = true;
+          }
+        }
+        if(skip){
+          continue;
+        }
+        $('tbody').append(
+          '<tr>' + 
+            '<td class="nowrap">' + links[i]['公開日'] + '</td>'+
+            '<td class="nowrap">' + links[i]['時間'] + '</td>' + 
+            '<td>' + 
+              '<a href ="' + links[i]['URL'] + '" target="_blank">' + links[i]['タイトル'] + '</a>'+
+            '</td>'+
+          '</tr>'
+        );
+      }
+    })
+  })
+  </script>
+</body>
+</html>
