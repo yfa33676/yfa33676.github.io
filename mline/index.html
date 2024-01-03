@@ -70,8 +70,9 @@
            '<div class="card-body">' + 
              '<h5 class="card-title">' + links[i]['タイトル'] + '</h5>' + 
              '<p class="card-text">' + links[i]['公開日']  + '<small>（' + links[i]['時間'] + '～）</small></p>' +
-             '<a href="' + links[i]['URL'] + '" target="_blank" " class="btn btn-primary">開く</a>' +
-          '</div>' + 
+             '<a href="' + links[i]['URL'] + '" target="_blank" " class="btn btn-primary me-2">開く</a>' +
+             '<button class="btn btn-light" onclick=navigator.clipboard.writeText("' + links[i]['URL'] + '")><i class="bi bi-clipboard"></i></button>' +
+            '</div>' + 
           '</div>' 
         );
       }
