@@ -57,30 +57,30 @@
         var skip = false;
         var keywords = q.toLowerCase().replaceAll('　',' ').replaceAll('+', ' ').split(' ');
         for(var j in keywords){
-          if(
-            links[i]['公開日'].toLowerCase().indexOf(keywords[j]) == -1 &&
-            links[i]['チャンネル名'].toLowerCase().indexOf(keywords[j]) == -1 &&
-            links[i]['タイトル'].toLowerCase().indexOf(keywords[j]) == -1
-           ){
+          if (
+            links[i]['公開日'].toLowerCase().indexOf(keywords[j]) === -1 &&
+            links[i]['チャンネル名'].toLowerCase().indexOf(keywords[j]) === -1 &&
+            (links[i]['時間'] === ""
+              ? links[i]['タイトル'].toLowerCase().indexOf(keywords[j]) === -1
+              : links[i]['チャプタータイトル'].toLowerCase().indexOf(keywords[j]) === -1)
+          ) {
             skip = true;
-          }
-        }
-        if(skip){
+          }        }
+          if(skip){
           continue;
         }
 
         $('#links').append(
          '<div class="card">' + 
            '<div class="card-body">' + 
-             '<h5 class="card-title">' + links[i]['タイトル'] + '</h5>' + 
-             '<p hidden>' + links[i]['タイトル']  + '(' + links[i]['時間'] + '～) ' + links[i]['URL'] + '</p>' +
+            '<h4 class="card-title">' + links[i]['タイトル'] + '</h4>' + 
+            (links[i]['時間'] ?
+            '<h5 class="card-title">' + links[i]['時間'] + '～ ' + links[i]['チャプタータイトル'] + '</h5>' :
+            '') + 
              '<p class="card-text">' +
-                links[i]['公開日'] + '<small>（' + links[i]['時間'] + '～）〈' + links[i]['チャンネル名'] + '〉</small>' + 
+                links[i]['公開日'] + '<small>　〈' + links[i]['チャンネル名'] + '〉</small>' + 
 	           '</p>' +
              '<a href="' + links[i]['URL'] + '" target="_blank" class="btn btn-outline-danger me-2"><i class="bi bi-youtube"></i></a>' +
-             '<button class="btn btn-outline-dark" onclick=navigator.clipboard.writeText(this.parentElement.children[1].innerText)>' + 
-		           '<i class="bi bi-clipboard"></i>' + 
-	           '</button>' +
             '</div>' + 
           '</div>' 
         );
